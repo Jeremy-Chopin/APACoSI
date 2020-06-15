@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import albumentations as A
 import segmentation_models as sm
-
+import math 
 from Helper_files.Dataloader import *
 from Helper_files.Dataset import *
 
@@ -230,3 +230,34 @@ def __reduce_depth_metrics(depth_vector):
             value = depth_vector[i]
     
     return index
+
+def reduce_pmap_depth_confusion(pmap, value_conf, seuil):
+
+    x,y,z = pmap.shape
+
+    temp = np.zeros((x,y))
+
+    for i in range(0,x):
+        for j in range(0,y):
+            temp[i][j] = __reduce_depth_metrics_confusion(pmap[i][j], value_conf, seuil)
+    
+    return temp
+
+def __reduce_depth_metrics_confusion(depth_vector, value_conf, seuil):
+
+    index = 0
+    value = 0
+    precedent_index = 0
+
+    for i in range(0, len(depth_vector)):
+        if value < depth_vector[i]:
+            precedent_index = index
+            index = i
+            value = depth_vector[i]
+    
+    step = math.fabs(depth_vector[i] - depth_vector[index])
+
+    if  step < seuil:
+        return value_conf
+    else:
+        return index

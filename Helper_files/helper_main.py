@@ -14,6 +14,7 @@ from operator import add, mul
 from matplotlib import pyplot as plt
 from scipy.signal import medfilt
 import shutil
+import skimage
 import sys
 import os
 
@@ -44,7 +45,7 @@ def test_on_dataset(model_path, classes, rgb_directory_path, labels_directory_pa
             image, gt_mask = dataset[dataset_index]
 
             pr_mask = SEG.get_segmentation(image, model)
-            image_gray = SEG.reduce_pmap_depth(pr_mask)
+            image_gray = SEG.reduce_pmap_depth_confusion(pr_mask, 20, 0.1)
             gt_gray = SEG.reduce_pmap_depth(gt_mask)
 
             """""""""""""""""""""""""""""""""
@@ -70,6 +71,7 @@ def test_on_dataset(model_path, classes, rgb_directory_path, labels_directory_pa
 
             labelled_image, Gi, nodes_data, labels_name_image_test, regions = GRAPHE.create_graph_image(image_gray, pr_mask)
 
+            labelled_image_conf, Gi_conf, nodes_data_conf, labels_name_image_test_conf, regions_conf = GRAPHE.create_graph_image_wout_confusion(image_gray, pr_mask, confusion_seuil=20)
             """""""""""""""""""""""""""""""""""""""
                             QAP
             """""""""""""""""""""""""""""""""""""""
@@ -98,10 +100,11 @@ def test_on_dataset(model_path, classes, rgb_directory_path, labels_directory_pa
             corrected = CORREC.non_matching_regions_refinment(regions, labelled_image, final_matching)
 
             plt.figure()
-            plt.subplot(2,2,1); plt.axis('off'); plt.title('RGB'); plt.imshow(image_rgb)
-            plt.subplot(2,2,2); plt.axis('off'); plt.title('seg Expt'); plt.imshow(gt_gray)
-            plt.subplot(2,2,3); plt.axis('off'); plt.title('seg U-net'); plt.imshow(image_gray)
-            plt.subplot(2,2,4); plt.axis('off'); plt.title('Correc'); plt.imshow(corrected)
+            plt.subplot(2,3,1); plt.axis('off'); plt.title('RGB'); plt.imshow(image_rgb)
+            plt.subplot(2,3,2); plt.axis('off'); plt.title('seg Expt'); plt.imshow(gt_gray)
+            plt.subplot(2,3,4); plt.axis('off'); plt.title('seg U-net'); plt.imshow(image_gray)
+            plt.subplot(2,3,5); plt.axis('off'); plt.title('S_pixels'); plt.imshow(labelled_image)
+            plt.subplot(2,3,6); plt.axis('off'); plt.title('Correc'); plt.imshow(corrected)
             plt.savefig(save_imgs_path + "/" + image_name + ".png")
             plt.close()
 

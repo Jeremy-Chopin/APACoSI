@@ -2,6 +2,7 @@ import numpy as np
 import networkx as nx
 from skimage.measure import label, regionprops
 from scipy.ndimage.morphology import distance_transform_edt
+from skimage.segmentation import slic
 
 class Node():
     
@@ -18,6 +19,34 @@ def create_graph_image(image_gray, predicted_mask):
     labelled_image = np.asarray(temp, np.uint8)
 
     labelled_image += 1
+
+    regions = regionprops(labelled_image)
+
+    nodes_data = __get_nodes_data(predicted_mask, regions)
+    edges_data = __get_edges_data_TD(labelled_image, nodes_data)
+
+    labels_name_image_test = []
+
+    for i in range(0, len(nodes_data)):
+        labels_name_image_test.append(str(i))
+
+    Gi = __create_graphe(nodes_data, edges_data, labels_name_image_test)
+
+    labelled_image -= 1
+
+    return labelled_image, Gi, nodes_data, labels_name_image_test, regions
+
+def create_graph_image_wout_confusion(image_gray, predicted_mask, confusion_seuil):
+
+    labelled_image = label(image_gray, connectivity=1)
+
+    temp = __change_background_region(labelled_image)
+    
+    labelled_image = np.asarray(temp, np.uint8)
+
+    labelled_image += 1
+
+    labelled_image[labelled_image == (confusion_seuil + 1)] = 0
 
     regions = regionprops(labelled_image)
 

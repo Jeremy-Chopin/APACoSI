@@ -31,8 +31,6 @@ list_file_val = os.listdir(DATA_TRAIN_DIRECTORY + "/Val_Labels")
 log = ""
 
 for i in IMAGES_IN_ITERATIONS:
-
-    if i < 10:
         percentage = math.floor(100 * i / len(list_file_train))
         iteration_rule = 20
 
@@ -42,15 +40,14 @@ for i in IMAGES_IN_ITERATIONS:
         if i == max(IMAGES_IN_ITERATIONS):
             iteration_path = os.path.join(dir_path, str(0))
             model_path = os.path.join(iteration_path, "best_model.h5")
-            #MAIN.test_on_dataset(model_path, CLASSES, DATA_TEST_DIRECTORY_RGB, DATA_TEST_DIRECTORY_Labels, iteration_path, KNOWLEDGES_PATH, 0.4)
+            MAIN.test_on_dataset(model_path, CLASSES, DATA_TEST_DIRECTORY_RGB, DATA_TEST_DIRECTORY_Labels, iteration_path, KNOWLEDGES_PATH, 0.6)
                 
         else:
             for j in range(0, iteration_rule):
-                if j > 18:
                     try:
                         iteration_path = os.path.join(dir_path, str(j))
                         model_path = os.path.join(iteration_path, "best_model.h5")
-                        MAIN.test_on_dataset(model_path, CLASSES, DATA_TEST_DIRECTORY_RGB, DATA_TEST_DIRECTORY_Labels, iteration_path, KNOWLEDGES_PATH, 0.4)
+                        MAIN.test_on_dataset(model_path, CLASSES, DATA_TEST_DIRECTORY_RGB, DATA_TEST_DIRECTORY_Labels, iteration_path, KNOWLEDGES_PATH, 0.6)
                     except:
                         strin = "Error on subdataset : " + iteration_path + "\nMessage : " + str(sys.exc_info()[0])+"\n\n"
                         log += strin
