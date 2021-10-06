@@ -31,7 +31,7 @@ class Functor(object):
 
             if specifier == "centroid":
                 Kv[i][i] = self. __Centroid(value_node_model, value_node_test)
-            elif specifier == "edt_min":
+            elif specifier == "edt_signed":
                 Kv[i][i] = self. __EDT_min(value_node_model, value_node_test)
 
         return Kv

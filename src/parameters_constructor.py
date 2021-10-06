@@ -13,7 +13,7 @@ class Functor(object):
 
         if specifier == "centroid":
             return self. __Centroid(labelled_image, regions, nodes)
-        elif specifier == "edt_min":
+        elif specifier == "edt_signed":
             return self. __EDT_min(labelled_image, regions, nodes)
         else :
             return self.__Error()
@@ -30,7 +30,7 @@ class Functor(object):
 
     def __EDT_min(self, labelled_image, regions, nodes):
         Cs = utils.calculate_max_diagonal(labelled_image)
-        lbd = 0.5
+        lbd = 0.75
 
         parameters = {}
         parameters["Cs"] = Cs

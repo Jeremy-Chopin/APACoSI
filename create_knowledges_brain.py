@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 import nibabel as nib
 
-from knowledges_constructor import knowledges_constructor
+#from knowledges_constructor import knowledges_constructor
 
 
 def load_file(path):
@@ -38,7 +38,7 @@ def create_adjency_matrix(specifier, label_path, nb_classes):
     
     return Am
 
-DATASET_PATH = "sub_datasets_brain"
+DATASET_PATH = "sub_datasets_face"
 
 NB_CLASSES = 14
 

@@ -148,7 +148,7 @@ def apply_refinement_brain(specifier, labelled_image, regions, matching, Am, Ar_
 
             score = __calculate_matching_cost(alpha, Kv, Ke, matching, nb_classes)
 
-            if score < best_score:
+            if score < best_score * 1.2:
                 best_score = score
                 best_merging = matching_inter
                 best_Ar = Ar_inter
@@ -314,13 +314,18 @@ def correct_merging_distance(image_labelled, regions, matching_initial, final_ma
         ids1 = matching_initial[i][0]
         distance_recap[i] = []
 
-        z1, y1, x1 = regions[ids1-1].centroid
+        centro1 = regions[ids1-1].centroid
 
         for ids2 in final_matching[i]:
             if ids1 != ids2:
-                z2, y2, x2 = regions[ids2-1].centroid
+                centro2 = regions[ids2-1].centroid
 
-                d = math.sqrt(math.pow(x2-x1, 2) + math.pow(y2-y1, 2) + math.pow(z2-z1, 2))
+                d_centro = np.asarray(centro2) - np.asarray(centro2)
+
+                if len(d_centro.shape) > 2:
+                    d = math.sqrt(math.pow(d_centro[0], 2) + math.pow(d_centro[1], 2) + math.pow(d_centro[2], 2))
+                else:
+                    d = math.sqrt(math.pow(d_centro[0], 2) + math.pow(d_centro[1], 2))
 
                 distance_recap[i].append(d)
 

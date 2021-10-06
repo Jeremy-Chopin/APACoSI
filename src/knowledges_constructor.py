@@ -35,7 +35,7 @@ class Functor(object):
 
         if specifier == "centroid":
             return self. __Centroid(gt_image, nb_classes)
-        elif specifier == "edt":
+        elif specifier == "edt_signed":
             return self. __EDT_min(gt_image, nb_classes)
         else :
             return self.__Error()

@@ -14,25 +14,26 @@ class Functor(object):
 
         if specifier == "centroid":
             return self. __Centroid(labelled_image, regions, matching, nb_classes)
-        elif specifier == "edt_min":
+        elif specifier == "edt_signed":
             return self. __EDT_min(labelled_image, regions, matching, nb_classes)
         else :
             return self.__Error()
 
     def __Centroid(self, labelled_image, regions, matching, nb_classes):
-        Ar = np.zeros((nb_classes, nb_classes, 3))
+        Ar = np.zeros((nb_classes, nb_classes, len(labelled_image.shape)))
 
         for i in range(0, nb_classes):
             ids1 = matching[i][0]
-            zc1, yc1, xc1 = regions[ids1 - 1].centroid
+            centro1 = regions[ids1 - 1].centroid
 
             for j in range(i+1, nb_classes):
                 ids2 = matching[j][0]
-                zc2, yc2, xc2 = regions[ids2 - 1].centroid
+                centro2 = regions[ids2 - 1].centroid
                 
-                vector = np.asarray([xc2 - xc1, yc2 - yc1, zc2 - zc1])
+                vector = np.asarray(centro2) - np.asarray(centro1)
+                vector = np.flip(vector, axis= 0)
 
-                for dim in range(0,3):
+                for dim in range(0,len(labelled_image.shape)):
                     Ar[i][j][dim] = vector[dim]
                     Ar[j][i][dim] = -vector[dim]
 

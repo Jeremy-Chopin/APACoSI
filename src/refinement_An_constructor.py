@@ -14,7 +14,7 @@ class Functor(object):
 
         if specifier == "centroid":
             return self. __Centroid(labelled_image, regions, matching, nb_classes, pr_mask)
-        elif specifier == "edt_min":
+        elif specifier == "edt_signed":
             return self. __EDT_min(labelled_image, regions, matching, nb_classes, pr_mask)
         else :
             return self.__Error()
@@ -32,8 +32,12 @@ class Functor(object):
                 region = regions[ids - 1]
                 region_mask = np.where(image_labelled == region.label, 1, region_mask)
 
-            proba_mask = np.expand_dims(region_mask, axis=3) * pr_mask
-            region_probs = np.sum(proba_mask, axis=(0,1,2)) / np.sum(region_mask)
+            if len(image_labelled.shape) > 2:
+                proba_mask = np.expand_dims(region_mask, axis=3) * pr_mask
+                region_probs = np.sum(proba_mask, axis=(0,1,2)) / np.sum(region_mask)
+            else:
+                proba_mask = np.expand_dims(region_mask, axis=2) * pr_mask
+                region_probs = np.sum(proba_mask, axis=(0,1)) / np.sum(region_mask)
 
             for j in range(0, nb_classes):
 

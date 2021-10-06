@@ -1,3 +1,5 @@
+from create_knowledges_brain import NB_CLASSES
+from matplotlib.pyplot import axis
 import numpy as np
 import copy
 import edt
@@ -50,8 +52,8 @@ class Functor(object):
 
                 if specifier == "centroid":
                     Ar_inter = self.__Centroid(regions, matching_inter, label1, Ar_inter)
-                elif specifier == "edt_min":
-                    self.__EDT( labelled_image, regions, matching_inter, label1, Ar_inter)
+                elif specifier == "edt_signed":
+                    Ar_inter = self.__EDT( labelled_image, regions, matching_inter, label1, Ar_inter)
                 else:
                     raise Exception("Specifier is not implemented!")
 
@@ -62,13 +64,13 @@ class Functor(object):
 
                 score = utils.calculate_matching_cost(alpha, Kv, Ke, nb_classes)
 
-                if score < best_score:
+                if score < best_score :
                     best_score = score
                     best_merging = matching_inter
                     best_Ar = Ar_inter
                     best_An = An_inter
 
-            if best_score < score_final:
+            if best_score < score_final * 1.2:
                     Ar_final = best_Ar
                     An_final = best_An
                     final_matching = best_merging
@@ -96,7 +98,7 @@ class Functor(object):
                 centro = np.asarray(centroid[v]) * areas[v]
             else:
                 centro +=  np.asarray(centroid[v]) * areas[v]
-        zc1, yc1, xc1 = centro / sum(areas)
+        centro1 = centro / sum(areas)
 
         for label2 in matching_inter.keys():
             if label1 != label2:
@@ -115,11 +117,12 @@ class Functor(object):
                         centro = np.asarray(centroid[v]) * areas[v]
                     else:
                         centro +=  np.asarray(centroid[v]) * areas[v]
-                zc2, yc2, xc2 = centro / sum(areas)
+                centro2 = centro / sum(areas)
 
-                vector = np.asarray([xc2 - xc1, yc2 - yc1, zc2 - zc1])
+                vector = np.asarray(centro2) - np.asarray(centro1)
+                vector = np.flip(vector, axis = 0)
 
-                for dim in range(0,3):
+                for dim in range(0,len(centro)):
                     Ar_inter[dim][label1][label2] = vector[dim]
                     Ar_inter[dim][label2][label1] = -vector[dim]
         
@@ -127,20 +130,16 @@ class Functor(object):
         
     def __EDT(self, labelled_image, regions, matching_inter, label1, Ar_inter):
 
-        mask = np.ones(labelled_image.shape)
+        mask = np.zeros(labelled_image.shape)
 
         for ids in matching_inter[label1]:
-            mask = np.where(labelled_image == regions[ids - 1].label, 0, mask)
+            mask = np.where(labelled_image == regions[ids - 1].label, 1, mask)
 
         unique = np.unique(label(mask, connectivity=2))
 
-        if np.max(unique) > 1:
-            mask = np.where(mask == 1, 0, 1)
-            dist = utils.signed_transform(mask)
-        else:
-            dist = edt.edt(mask.astype(np.bool))
+        dist = utils.signed_transform(mask)
 
-        for label2 in range(label1 + 1, len(matching_inter.keys())):
+        """for label2 in range(label1 + 1, len(matching_inter.keys())):
             mask2 = np.zeros(labelled_image.shape)
 
             for ids in matching_inter[label2]:
@@ -159,6 +158,30 @@ class Functor(object):
             Ar_inter[1][label1][label2] = max_value
 
             Ar_inter[0][label2][label1] = min_value
-            Ar_inter[1][label2][label1] = max_value
+            Ar_inter[1][label2][label1] = max_value"""
+        
+        for label2 in range(0, len(matching_inter.keys())):
+            if label2 != label1:
+                mask2 = np.zeros(labelled_image.shape)
+
+                for ids in matching_inter[label2]:
+                    mask2 = np.where(labelled_image == regions[ids - 1].label, 1, mask2)
+
+                res = dist  * mask2
+
+                min_value = np.min(res[np.nonzero(res)])
+
+                #max_value = utils.get_max_EDT_signed(labelled_image, regions, matching_inter[label1], matching_inter[label2])
+
+                if np.max(unique) > 1:
+                    max_value = utils.get_max_EDT_signed(labelled_image, regions, matching_inter[label1], matching_inter[label2])
+                else:
+                    max_value = np.max(res[np.nonzero(res)])
+
+
+                
+
+                Ar_inter[0][label1][label2] = min_value
+                Ar_inter[1][label1][label2] = max_value
         
         return Ar_inter

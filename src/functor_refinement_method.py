@@ -14,7 +14,7 @@ class Functor(object):
 
         if specifier == "centroid":
             return self. __Centroid(labelled_image, regions, matching, nb_classes, pr_mask)
-        elif specifier == "edt_min":
+        elif specifier == "edt_signed":
             return self. __EDT_min(labelled_image, regions, matching, nb_classes, pr_mask)
         else :
             return self.__Error()

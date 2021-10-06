@@ -35,7 +35,7 @@ class Functor(object):
 
                 if specifier == "centroid":
                     Ke[i][j] = self. __Centroid(value_edge_model, value_edge_test, params)
-                elif specifier == "edt_min":
+                elif specifier == "edt_signed":
                     Ke[i][j] = self. __EDT_min(value_edge_model, value_edge_test, params)
 
         return Ke
