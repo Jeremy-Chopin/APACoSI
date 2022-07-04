@@ -7,6 +7,10 @@ This conference paper described a method using structural knowledges to improve 
 ## Methods
 
 ```python
+from pyqap.Nodes import MaxDistanceSpecifier, CnnProbabilitiesSpecifier
+from pyqap.Edges import RelativePositionSpecifier
+from pyqap.matching import get_one_to_one_matching, get_many_to_one_matching
+
 # Paths and Images
 pr_mask = np.load(os.path.join('test_cnn_output.npy'))
 image_cnn = np.argmax(pr_mask, axis=2)
