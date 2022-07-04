@@ -1,5 +1,3 @@
-import time
-
 from .EdgeSpecifier import EdgeSpecifier
 
 import numpy as np
@@ -8,18 +6,15 @@ import cc3d
 
 from numpy.linalg import norm
 from skimage.measure import label, regionprops
-from scipy.ndimage import center_of_mass
-from copy import deepcopy
 
 
 def define_centroid(mask, weigthed = True):
-    
     
     if len(mask.shape) ==2:
         lbl = label(mask)
     else:
         lbl = cc3d.connected_components(mask)
-
+        
     regions = regionprops(lbl)
     
     mask_centroid = None
@@ -46,6 +41,8 @@ def define_centroid(mask, weigthed = True):
     else:
         mask_centroid = mask_centroid / len(regions)
     
+    mask_centroid = np.floor(mask_centroid)
+    
     return mask_centroid
         
 
@@ -62,7 +59,7 @@ class RelativePositionSpecifier(EdgeSpecifier):
         Ae = np.zeros((nb_classes, nb_classes, nb_dims))
 
         for i in range(0, nb_classes):
-            mask = np.zeros(labelled_image.shape, dtype=np.uint8)
+            mask = np.zeros(labelled_image.shape)
             
             nodes = matching[i]
             for n in nodes:
@@ -71,7 +68,7 @@ class RelativePositionSpecifier(EdgeSpecifier):
             centro1 = define_centroid(mask, params['weigthed'])
 
             for j in range(i+1, nb_classes):
-                mask2 = np.zeros(labelled_image.shape, dtype=np.uint8)
+                mask2 = np.zeros(labelled_image.shape)
             
                 nodes = matching[j]
                 for n in nodes:
@@ -86,42 +83,6 @@ class RelativePositionSpecifier(EdgeSpecifier):
                     Ae[j][i][dim] = -vector[dim]
 
         return Ae
-
-    def define_Ae_refinement(self, segmentation_map, labelled_image, regions, matching, params, label_to_update, Ae):
-
-        t0 = time.perf_counter()
-        nb_classes = len(matching)
-        
-        nb_dims = len(labelled_image.shape)
-
-        temp_Ae = deepcopy(Ae)
-
-        mask2 = np.zeros(labelled_image.shape, dtype=np.uint8)
-            
-        nodes = matching[label_to_update]
-        for n in nodes:
-            mask2 = np.where(n + 1 == labelled_image, 1, mask2)
-            
-        centro2 = define_centroid(mask2, params['weigthed'])
-
-        for i in range(0, nb_classes):
-            if i != label_to_update:
-                mask = np.zeros(labelled_image.shape, dtype=np.uint8)
-                
-                nodes = matching[i]
-                for n in nodes:
-                    mask = np.where(n + 1 == labelled_image, 1, mask)
-                
-                centro1 = define_centroid(mask, params['weigthed'])
-                
-                vector = centro1 - centro2
-
-                temp_Ae[i,label_to_update,:] = vector
-                temp_Ae[label_to_update, i, :] = -vector
-        
-        print("Ae : ", time.perf_counter() - t0)
-
-        return temp_Ae
     
     def define_Ae_knowledge(self, annotation, params):
         nb_classes = len(np.unique(annotation)) - 1 
@@ -140,48 +101,9 @@ class RelativePositionSpecifier(EdgeSpecifier):
                     
                     vector = centro1 - centro2
 
-                    Ae[i,j,:] = vector
-                    Ae[j, i, :] = -vector
-
-        return Ae
-
-    def define_Ae_initial(self, segmentation_map, labelled_image, regions, params, nb_classes):
-        nb_regions = len(regions)
-        
-        nb_dims = len(labelled_image.shape)
-
-        Ae = np.zeros((nb_regions, nb_regions, nb_dims))
-
-        for i in range(0, nb_regions):
-            mask = np.zeros(labelled_image.shape, dtype=np.bool)
-            
-            region = regions[i]
-
-            mask = np.where(region.label == labelled_image, True, mask)
-        
-            centro1 = define_centroid(mask, params['weigthed'])
-
-            for j in range(i+1, nb_regions):
-                mask2 = np.zeros(labelled_image.shape, dtype=np.uint8)
-            
-                region = regions[j]
-                
-                mask2 = np.where(region.label == labelled_image, True, mask2)
-                
-                centro2 = define_centroid(mask2, params['weigthed'])
-                
-                vector = centro1 - centro2
-
-                
-                Ae[i,j,:] = vector
-                Ae[j, i, :] = -vector
-                
-
-                """for dim in range(0,nb_dims):
-                    Ae[i][j][dim] = vector[dim]
-                    Ae[j][i][dim] = -vector[dim]"""
-                
-                
+                    for dim in range(0,nb_dims):
+                        Ae[i][j][dim] = vector[dim]
+                        Ae[j][i][dim] = -vector[dim]
 
         return Ae
     
