@@ -1,13 +1,13 @@
-from matplotlib import pyplot as plt
-
 import os
 import math
 import numpy as np
 
-from src.Nodes import MaxDistanceSpecifier, CnnProbabilitiesSpecifier
-from src.Edges import RelativePositionSpecifier
+from matplotlib import pyplot as plt
+from utils import load_knowledge, load_file, get_diagonal_size, create_images_from_ids
 
-from src.utils import load_knowledge, load_file, get_diagonal_size, create_images_from_ids, get_one_to_one_matching, get_many_to_one_matching
+from pyqap.Nodes import MaxDistanceSpecifier, CnnProbabilitiesSpecifier
+from pyqap.Edges import RelativePositionSpecifier
+from pyqap.matching import get_one_to_one_matching, get_many_to_one_matching
 
 # Paths and Images
 pr_mask = np.load(os.path.join('test_cnn_output.npy'))
@@ -86,7 +86,6 @@ proposal_matching, proposal_score = get_many_to_one_matching(
 proposal_image = create_images_from_ids(labelled_image, proposal_matching)
 
 # Results
-
 plt.subplot(1,4,1); plt.title("Annotation"); plt.imshow(gt_mask)
 plt.subplot(1,4,2); plt.title("CNN"); plt.imshow(image_cnn)
 plt.subplot(1,4,3); plt.title("one-to-one"); plt.imshow(matching_image)
