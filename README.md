@@ -6,34 +6,58 @@ This conference paper described a method using structural knowledges to improve 
 
 ## Methods
 
-The structural informations are embedded on vertices and edges of the graph. Those structural informations are evaluated through the "Nodes" and "Edges" functions. 
-
 ```python
+# Paths and Images
+pr_mask = np.load(os.path.join('test_cnn_output.npy'))
+image_cnn = np.argmax(pr_mask, axis=2)
+
+gt_mask, affine = load_file(os.path.join('test_gt.png'))
+intensity_input, _ = load_file(os.path.join('test_rgb.png'))
+
+KNOWLEDGES_DIR = os.path.join('knowledges')
+
+# Parameters
+params = {}
+params['alpha'] = 0.5
+params['Cs'] = get_diagonal_size(image_cnn)
+params['weigthed'] = True
+params['lbd'] = 0.5
+params['min_max_coef'] = 0.5
+
+nb_classes = 3
+
+max_node_matching = 3
+max_node_refinement = math.inf
+
+# Attributes
 nodes_specifier = [
     CnnProbabilitiesSpecifier.CnnProbabilitiesSpecifier(),
     MaxDistanceSpecifier.MaxDistandeSpecifier()
 ]
 
+node_knowledge = load_knowledge(KNOWLEDGES_DIR, 'nodes', nodes_specifier)
+
 edges_specifier = [
     RelativePositionSpecifier.RelativePositionSpecifier()
 ]
-```
 
-The K matrix is the matrix that embeddes the dissimilarities between the two graphs and dissimilarities functions are used to evaluate the difference of attributes on the graphs.
+edge_knowledge = load_knowledge(KNOWLEDGES_DIR, 'edges', edges_specifier)
 
-Each structural informations is related to a weigth parameter.
+# Pre-processing
+    
+dims = len(image_cnn.shape)
+pr_mask = pr_mask[:,:, 1:nb_classes + 1]
+    
+# initial matching
+best_matching, best_score, labelled_image, regions = get_one_to_one_matching(...)
 
-```python
-kv_constructor = KvConstructor(nodes_specifier, [0.5,0.5], node_knowledge)
+matching_image = create_images_from_ids(labelled_image, best_matching)
+
+# refinement
+proposal_matching, proposal_score = get_many_to_one_matching(...
         
-kv = kv_constructor.construct_Kv(pr_mask, labelled_image, regions, matching, params)
-
-ke_constructor = KeConstructor(edges_specifier, [1], edge_knowledge)
-
-ke = ke_constructor.construct_Ke(pr_mask, labelled_image, regions, matching, params)
+proposal_image = create_images_from_ids(labelled_image, proposal_matching)
 ```
-
-The inexact graph matching operation guided by the K matrix is decribed in the tutorial.
 
 ## Tutorial
 
