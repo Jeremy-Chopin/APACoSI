@@ -44,7 +44,6 @@ edges_specifier = [
 edge_knowledge = load_knowledge(KNOWLEDGES_DIR, 'edges', edges_specifier)
 
 # Pre-processing
-    
 dims = len(image_cnn.shape)
 pr_mask = pr_mask[:,:, 1:nb_classes + 1]
     
@@ -54,7 +53,7 @@ best_matching, best_score, labelled_image, regions = get_one_to_one_matching(...
 matching_image = create_images_from_ids(labelled_image, best_matching)
 
 # refinement
-proposal_matching, proposal_score = get_many_to_one_matching(...
+proposal_matching, proposal_score = get_many_to_one_matching(...)
         
 proposal_image = create_images_from_ids(labelled_image, proposal_matching)
 ```
