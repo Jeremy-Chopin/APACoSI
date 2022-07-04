@@ -67,3 +67,18 @@ An example on 2d synthetic dataset is available.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
+## Citation
+
+Please, cite this paper if you are using our algorithm.
+
+@InProceedings{10.1007/978-3-031-09037-0_15,
+author="Chopin, J{\'e}r{\'e}my and Fasquel, Jean-Baptiste and Mouch{\`e}re, Harold and Dahyot, Rozenn and Bloch, Isabelle",
+editor="El Yacoubi, Moun{\^i}m and Granger, Eric and Yuen, Pong Chi and Pal, Umapada and Vincent, Nicole",
+title="Improving Semantic Segmentation with Graph-Based Structural Knowledge",
+booktitle="Pattern Recognition and Artificial Intelligence",
+year="2022",
+publisher="Springer International Publishing",
+address="Cham",
+pages="173--184",
+isbn="978-3-031-09037-0"
+}
