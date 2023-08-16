@@ -28,7 +28,7 @@ def define_permutations(regions, nb_classes):
     for region in regions:
         label = region.max_intensity
         max_id = label - 1
-        initial_regions_labels[indice][max_id] = 1
+        initial_regions_labels[indice][int(max_id)] = 1
         indice += 1
 
     dico = {}
