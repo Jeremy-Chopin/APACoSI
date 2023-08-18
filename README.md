@@ -1,10 +1,14 @@
 # APACoSI
 
-This project is related to the project APACoSI, and the code in this repository is related to this conference [paper](https://link.springer.com/chapter/10.1007/978-3-031-09037-0_15).
+This project is related to the project APACoSI, and the code in this repository is related to two conference papers.
 
-This conference paper described a method using structural knowledges to improve a semantic segmentation provided by a neural network.
+This first conference [paper](https://link.springer.com/chapter/10.1007/978-3-031-09037-0_15) described a method using structural knowledges to improve a semantic segmentation provided by a neural network.
+
+The second conference [paper](https://link.springer.com/chapter/10.1007/978-3-031-09037-0_5) proposed an optimized version of the method described in the first paper using reinforcement learning.
 
 ## Methods
+
+
 
 ```python
 from pyqap.Nodes import MaxDistanceSpecifier, CnnProbabilitiesSpecifier
@@ -70,6 +74,7 @@ An example on 2d synthetic dataset is available.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
+
 ## Citation
 
 Please, cite this paper if you are using our algorithm.
@@ -84,4 +89,17 @@ publisher="Springer International Publishing",
 address="Cham",
 pages="173--184",
 isbn="978-3-031-09037-0"
+}
+
+Please, cite this paper if you are using our optimized algorithm using reinforcement learning.
+
+@InProceedings{10.1007/978-3-031-09037-0_5,
+author="Chopin, J{\'e}r{\'e}my and Fasquel, Jean-Baptiste and Mouch{\`e}re, Harold and Dahyot, Rozennand Bloch, Isabelle",
+editor="El Yacoubi, Moun{\^i}m and Granger, Eric and Yuen, Pong Chi and Pal, Umapada and Vincent, Nicole",
+title="QAP Optimisation with Reinforcement Learning for Faster Graph Matching in Sequential Semantic Image Analysis",
+booktitle="Pattern Recognition and Artificial Intelligence",
+year="2022",
+publisher="Springer International Publishing",
+address="Cham",
+pages="47--58"
 }
