@@ -1,10 +1,10 @@
 # APACoSI
 
-This project is related to the project APACoSI, and the code in this repository is related to two conference papers.
+This project is related to the project APACoSI, and the code in this repository is related to a journal paper and a conference paper.
 
-This first conference ["Improving Semantic Segmentation with Graph-Based Structural Knowledge"](https://link.springer.com/chapter/10.1007/978-3-031-09037-0_15) described a method using structural knowledges to improve a semantic segmentation provided by a neural network.
+This journal paper ([Model-based inexact graph matching on top of DNNs for semantic scene understanding, CVIU 2023]([https://link.springer.com/chapter/10.1007/978-3-031-09037-0_15](https://www.sciencedirect.com/science/article/abs/pii/S1077314223001248))) described a method using structural knowledges to improve a semantic segmentation provided by a neural network.
 
-The second conference ["QAP Optimisation with Reinforcement Learning for Faster Graph Matching in Sequential Semantic Image Analysis"](https://link.springer.com/chapter/10.1007/978-3-031-09037-0_5) proposed an optimized version of the method described in the first paper using reinforcement learning.
+The conference paper ([(QAP Optimisation with Reinforcement Learning for Faster Graph Matching in Sequential Semantic Image Analysis, ICPRAI 2022](https://link.springer.com/chapter/10.1007/978-3-031-09037-0_5)) proposed an optimized version of the method described in the journal paper using reinforcement learning.
 
 ## Methods without Reinforcement Learning
 
@@ -149,6 +149,7 @@ An example of our algorithm for the segmentation of the elements of the face usi
 ## Citation
 
 Please, cite this paper if you are using our algorithm.
+
 ```
 @InProceedings{10.1007/978-3-031-09037-0_15,
 author="Chopin, J{\'e}r{\'e}my and Fasquel, Jean-Baptiste and Mouch{\`e}re, Harold and Dahyot, Rozenn and Bloch, Isabelle",
@@ -160,7 +161,8 @@ publisher="Springer International Publishing",
 address="Cham",
 pages="173--184",
 isbn="978-3-031-09037-0"
-}```
+}
+```
 
 Please, cite this paper if you are using our optimized algorithm using reinforcement learning.
 
@@ -174,4 +176,5 @@ year="2022",
 publisher="Springer International Publishing",
 address="Cham",
 pages="47--58"
-}```
+}
+```
