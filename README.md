@@ -83,6 +83,8 @@ python main_RL.py
 
 ## Methods with Reinforcement Learning
 
+The following python code illustrate how to import and use the different functionalities of our RL-based algorithm (it is from the file main_RL.py).
+
 ```python
 from os.path import join
 
