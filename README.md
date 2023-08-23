@@ -188,7 +188,7 @@ Please, cite this paper if you are using our optimized algorithm using reinforce
 
 ```
 @InProceedings{10.1007/978-3-031-09037-0_5,
-author="Chopin, J{\'e}r{\'e}my and Fasquel, Jean-Baptiste and Mouch{\`e}re, Harold and Dahyot, Rozennand Bloch, Isabelle",
+author="Chopin, J{\'e}r{\'e}my and Fasquel, Jean-Baptiste and Mouch{\`e}re, Harold and Dahyot, Rozenn and Bloch, Isabelle",
 editor="El Yacoubi, Moun{\^i}m and Granger, Eric and Yuen, Pong Chi and Pal, Umapada and Vincent, Nicole",
 title="QAP Optimisation with Reinforcement Learning for Faster Graph Matching in Sequential Semantic Image Analysis",
 booktitle="Pattern Recognition and Artificial Intelligence",
