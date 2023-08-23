@@ -161,7 +161,7 @@ python main_RL.py
 
 ### IBSR dataset
 
-An example for processing graph matching using our RL-baseg algorithm on 3d IBSR dataset is available but the data are too heavy to be posted on this repository (contact me and I'll share the data with you).
+An example for processing graph matching using our RL-based algorithm on 3d IBSR dataset is available but the data are too heavy to be posted on this repository (contact me and I'll share the data with you).
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
