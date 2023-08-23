@@ -64,8 +64,9 @@ proposal_matching, proposal_score = get_many_to_one_matching(...)
 proposal_image = create_images_from_ids(labelled_image, proposal_matching)
 ```
 
-## Tutorial
+## Tutorials
 
+### Synthetic dataset
 An example for processing graph matching on 2d synthetic dataset is available (the explanation of this synthetic dataset is find in this conference [paper](https://link.springer.com/chapter/10.1007/978-3-031-09037-0_5)).
 
 To execute this tutorial use the following command :
@@ -73,7 +74,11 @@ To execute this tutorial use the following command :
 python main_no_RL.py
 ```
 
-and to use the RL version use :
+### FASSEG dataset
+
+An example for processing graph matching using our RL-baseg algorithm on 2d FASSEG dataset is available.
+
+To execute this tutorial use the following command :
 
 ```
 python main_RL.py
