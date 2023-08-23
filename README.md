@@ -142,12 +142,12 @@ inference(nb_classes, seed_sizes, data_path, experiments_path)
 ### Synthetic dataset
 An example for processing graph matching on 2d synthetic dataset is available (the explanation of this synthetic dataset is find in this conference [paper](https://link.springer.com/chapter/10.1007/978-3-031-09037-0_5)).
 
+![Alt text](repository/proposal_example.png?raw=true "Example on a synthethic image.")
+
 To execute this tutorial use the following command :
 ```
 python main_no_RL.py
 ```
-
-![Alt text](repository/proposal_example.png?raw=true "Example on a synthethic image.")
 
 ### FASSEG dataset
 
