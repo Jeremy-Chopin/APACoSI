@@ -64,28 +64,6 @@ proposal_matching, proposal_score = get_many_to_one_matching(...)
 proposal_image = create_images_from_ids(labelled_image, proposal_matching)
 ```
 
-## Tutorials
-
-### Synthetic dataset
-An example for processing graph matching on 2d synthetic dataset is available (the explanation of this synthetic dataset is find in this conference [paper](https://link.springer.com/chapter/10.1007/978-3-031-09037-0_5)).
-
-To execute this tutorial use the following command :
-```
-python main_no_RL.py
-```
-
-### FASSEG dataset
-
-An example for processing graph matching using our RL-baseg algorithm on 2d FASSEG dataset is available.
-
-To execute this tutorial use the following command :
-
-```
-python main_RL.py
-```
-
-![Alt text](repository/proposal_example.png?raw=true "Example on a synthethic image.")
-
 ## Methods with Reinforcement Learning
 
 The following python code illustrate how to import and use the different functionalities of our RL-based algorithm (it is from the file main_RL.py).
@@ -159,7 +137,27 @@ training(nb_classes, seed_sizes, data_path, experiments_path, tr_param)
 inference(nb_classes, seed_sizes, data_path, experiments_path)
 ```
 
-An example of our algorithm for the segmentation of the elements of the face using the 2D dataset FASSEG is available.
+## Tutorials
+
+### Synthetic dataset
+An example for processing graph matching on 2d synthetic dataset is available (the explanation of this synthetic dataset is find in this conference [paper](https://link.springer.com/chapter/10.1007/978-3-031-09037-0_5)).
+
+To execute this tutorial use the following command :
+```
+python main_no_RL.py
+```
+
+![Alt text](repository/proposal_example.png?raw=true "Example on a synthethic image.")
+
+### FASSEG dataset
+
+An example for processing graph matching using our RL-baseg algorithm on 2d FASSEG dataset is available.
+
+To execute this tutorial use the following command :
+
+```
+python main_RL.py
+```
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
